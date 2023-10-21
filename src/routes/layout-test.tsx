@@ -28,6 +28,7 @@ export default component$(() => {
   return (
     <>
       <Header />
+      <p>this is the test layout</p>
       <main>
         <Slot />
       </main>

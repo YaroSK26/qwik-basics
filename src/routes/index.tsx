@@ -1,112 +1,104 @@
-import { component$ } from "@builder.io/qwik";
-import type { DocumentHead } from "@builder.io/qwik-city";
+import { component$, useSignal, useStore, /*Resource*/ } from "@builder.io/qwik";
+import type { DocumentHead, /*RequestHandler*/ /*routeLoader*/ } from "@builder.io/qwik-city";
 
-import Counter from "~/components/starter/counter/counter";
-import Hero from "~/components/starter/hero/hero";
-import Infobox from "~/components/starter/infobox/infobox";
-import Starter from "~/components/starter/next-steps/next-steps";
+  // interface BlogData {
+  //   id: string,
+  //   title: string,
+  // }
+
+  // export const onGet: RequestHandler<BlogData[]> = async () => {
+  //   console.log("fetching data..")
+
+  //   const response = await fetch("http://localhost:3000/blogs");
+  //   const data = await response.json()
+  //   return data;
+  // }
+
+  // // !fetcovat data uz nejde cez useEndpoint ale cez routeloader
 
 export default component$(() => {
+
+
+  const name = useSignal("mario")
+  const person = useStore({
+    name: "peach", age: 30
+  })
+
+   const blogs = useStore([
+     {
+       id: 1,
+       name: "mike",
+       age: 20,
+     },
+     {
+      id: 2,
+       name: "george",
+       age: 10,
+     }]
+   );
+
+
+   const formVisible = useSignal(false)
+
   return (
     <>
-      <Hero />
-      <Starter />
+      <h2>Cauuuu</h2>
 
-      <div role="presentation" class="ellipsis"></div>
-      <div role="presentation" class="ellipsis ellipsis-purple"></div>
+      <p>hello, {name.value}</p>
+      <p >
+        hello, {person.name}, {person.age}
+      </p>
 
-      <div class="container container-center container-spacing-xl">
-        <h3>
-          You can <span class="highlight">count</span>
-          <br /> on me
-        </h3>
-        <Counter />
-      </div>
+      <button onClick$={() => (person.name = "luigi")}>click me</button>
+      <br />
+      <br />
 
-      <div class="container container-flex">
-        <Infobox>
-          <div q:slot="title" class="icon icon-cli">
-            CLI Commands
-          </div>
-          <>
-            <p>
-              <code>npm run dev</code>
-              <br />
-              Starts the development server and watches for changes
-            </p>
-            <p>
-              <code>npm run preview</code>
-              <br />
-              Creates production build and starts a server to preview it
-            </p>
-            <p>
-              <code>npm run build</code>
-              <br />
-              Creates production build
-            </p>
-            <p>
-              <code>npm run qwik add</code>
-              <br />
-              Runs the qwik CLI to add integrations
-            </p>
-          </>
-        </Infobox>
-
-        <div>
-          <Infobox>
-            <div q:slot="title" class="icon icon-apps">
-              Example Apps
-            </div>
-            <p>
-              Have a look at the <a href="/demo/flower">Flower App</a> or the{" "}
-              <a href="/demo/todolist">Todo App</a>.
-            </p>
-          </Infobox>
-
-          <Infobox>
-            <div q:slot="title" class="icon icon-community">
-              Community
-            </div>
-            <ul>
-              <li>
-                <span>Questions or just want to say hi? </span>
-                <a href="https://qwik.builder.io/chat" target="_blank">
-                  Chat on discord!
-                </a>
-              </li>
-              <li>
-                <span>Follow </span>
-                <a href="https://twitter.com/QwikDev" target="_blank">
-                  @QwikDev
-                </a>
-                <span> on Twitter</span>
-              </li>
-              <li>
-                <span>Open issues and contribute on </span>
-                <a href="https://github.com/BuilderIO/qwik" target="_blank">
-                  GitHub
-                </a>
-              </li>
-              <li>
-                <span>Watch </span>
-                <a href="https://qwik.builder.io/media/" target="_blank">
-                  Presentations, Podcasts, Videos, etc.
-                </a>
-              </li>
-            </ul>
-          </Infobox>
+      {blogs.map((blog) => (
+        <div key={blog.id}>
+          {blog.name}, {blog.age}
+          <br />
+          <br />
         </div>
-      </div>
+      ))}
+
+      <button onClick$={() => blogs.pop()}>remove a blog</button><br /><br />
+
+      <button onClick$={() => formVisible.value = true}>show text</button><br />
+
+      {formVisible.value && (
+       <div>text</div>
+      )}
+
+      {/* <form  preventdefault:submit onSubmit$={}   pri inpute onInput={je aj (e.target as HTMLInputElement).value}>*/}
+   
+
+        {/* <Resource value={blogsData } onPending={() => <div>Loading...</div>}
+          onResolved={(blogs) => (
+              <div >
+                    {blogs && blogs.map((blog) => (
+                      <div key={blog.id}>
+                            <h3>{blog.title}</h3>
+                      </div>
+                    ))}
+              </div>
+          )}
+        /> */}
     </>
   );
 });
 
 export const head: DocumentHead = {
-  title: "Welcome to Qwik",
+  title: "Vitaj Qwik",
   meta: [
     {
       name: "description",
-      content: "Qwik site description",
+      content: "Qwik site ",
     },
   ],
+  links: [
+    {
+      rel: "stylesheet",
+      href: "some."
+    }
+  ]
 };

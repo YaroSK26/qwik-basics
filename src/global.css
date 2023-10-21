@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /**
  * WHAT IS THIS FILE?
  *
@@ -78,3 +82,5 @@ body {
   padding: 0;
   line-height: inherit;
 }
+
+
